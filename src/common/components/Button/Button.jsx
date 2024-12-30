@@ -5,7 +5,7 @@ const Button = ({
   size = "md",
   children,
   className = "",
-  onClick, // Added onClick prop
+  onClick,
   ...props
 }) => {
   const baseStyle =
@@ -29,7 +29,7 @@ const Button = ({
   return (
     <button
       className={`${baseStyle} ${variants[variant]} ${sizes[size]} ${className}`}
-      onClick={onClick} // Attached onClick handler
+      onClick={onClick}
       {...props}
     >
       {children}
