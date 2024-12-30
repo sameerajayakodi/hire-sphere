@@ -1,13 +1,19 @@
 import React, { useContext } from "react";
-import { assets, JobCategories, JobLocations } from "../assets/assets";
+import {
+  assets,
+  JobCategories,
+  JobLocations,
+  jobsData,
+} from "../assets/assets";
 import { AppContext } from "../context/AppContext";
+import JobCard from "./JobCard";
 
 const JobListing = () => {
   const { isSearched, searchFilter, setSearchFilter } = useContext(AppContext);
   return (
     <div className="flex flex-row">
       {/*side bar*/}
-      <div className="hidden w-1/4 p-4 bg-gray-100 lg:block">
+      <div className="hidden w-1/4 p-4 rounded-lg lg:block">
         {/*search filter for hero component*/}
         {isSearched &&
           (searchFilter.title !== "" || searchFilter.location !== "") && (
@@ -68,7 +74,7 @@ const JobListing = () => {
 
         <div className="p-8 font-medium rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-900">
-            Searched by Categories
+            Searched by Location
           </h3>
           <ul className="space-y-2">
             {JobLocations.map((location, index) => (
@@ -89,6 +95,18 @@ const JobListing = () => {
           </ul>
         </div>
       </div>
+      {/*job listing*/}
+      <section className="w-full text-gray-800 lg:3/4 max-lg:px-4">
+        <h3 className="py-2 text-3xl font-medium" id="job-list">
+          Latest Jobs
+        </h3>
+        <p className="mb-8">Get your desired job from top companies</p>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cold-2 xl:grid-cols-3">
+          {jobsData.map((job, index) => (
+            <JobCard key={index} job={job} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
