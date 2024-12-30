@@ -19,7 +19,7 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-20 flex flex-col items-center justify-center px-4 py-20 mt-8 text-center bg-gradient-to-r from-indigo-800 via-blue-900 to-indigo-800 sm:px-8 lg:px-8">
         <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl">
-          Find Your Dream <span className="text-yellow-300">Job</span> Today
+          Find Your Dream <span className="text-blue-500">Job</span> Today
         </h1>
         <p className="max-w-2xl mt-4 text-lg text-gray-200 sm:text-xl md:text-2xl">
           Explore thousands of job opportunities tailored just for you. Your
@@ -32,12 +32,12 @@ const Hero = () => {
             <input
               ref={titleRef}
               placeholder="Search for jobs..."
-              className="p-2 px-4 transition-shadow rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300"
+              className="p-2 px-4 transition-shadow rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300"
             />
             <input
               ref={locationRef}
               placeholder="Location"
-              className="p-2 px-4 transition-shadow rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300"
+              className="p-2 px-4 transition-shadow rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300"
             />
 
             <Button onClick={onSearch} variant="primary">
