@@ -127,6 +127,34 @@ const JobListing = () => {
             <JobCard key={index} job={job} />
           ))}
         </div>
+
+        {/* pagination */}
+
+        {jobs.length > 0 && (
+          <div className="flex flex-row justify-center gap-4 p-4 flritems-center ">
+            <a href="">
+              <img src={assets.left_arrow_icon} alt="" />
+            </a>
+            {Array.from({ length: Math.ceil(jobs.length / 6) }).map(
+              (_, index) => (
+                <a key={index} href="#job-list">
+                  <button
+                    className={` w-10 h-10  flex items-center justify-center border border-gray-300 rounded ${
+                      currentpage === index + 1
+                        ? "bg-blue-100 text-blue-500"
+                        : "text-gray-500 "
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                </a>
+              )
+            )}
+            <a href="#job-list">
+              <img src={assets.right_arrow_icon} alt="" />
+            </a>
+          </div>
+        )}
       </section>
     </div>
   );
