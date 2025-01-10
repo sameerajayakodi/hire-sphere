@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
 import Button from "../common/components/Button/Button";
 
 const JobCard = ({ job }) => {
+  const navigate = useNavigate();
   return (
     <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-md">
       {/* Company Icon */}
@@ -63,10 +65,24 @@ const JobCard = ({ job }) => {
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-4 mt-6">
-        <Button name="Apply now" variant="primary">
+        <Button
+          onClick={() => {
+            navigate(`/apply-jobs/${job._id}`);
+            scrollTo(0, 0);
+          }}
+          name="Apply now"
+          variant="primary"
+        >
           Apply now
         </Button>
-        <Button name="Learn more" variant="secondary">
+        <Button
+          onClick={() => {
+            navigate(`/apply-jobs/${job._id}`);
+            scrollTo(0, 0);
+          }}
+          name="Learn more"
+          variant="secondary"
+        >
           Learn more
         </Button>
       </div>
