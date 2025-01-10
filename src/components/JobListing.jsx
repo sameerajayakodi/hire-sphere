@@ -36,18 +36,27 @@ const JobListing = () => {
     const matchesLocation = (job) =>
       selectedLocations.length === 0 ||
       selectedLocations.includes(job.location);
-  });
+    const matchesTitle = (job) =>
+      searchFilter.title === "" ||
+      job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
+    const matchesSearchLocation = (job) =>
+      searchFilter.location === "" ||
+      job.location.toLowerCase().includes(searchFilter.location.toLowerCase());
+    const newFilteredJobs = jobs
+      .slice()
+      .reverse()
+      .filter(
+        (job) =>
+          matchesCategory(job) &&
+          matchesLocation(job) &&
+          matchesTitle(job) &&
+          matchesSearchLocation(job)
+      );
 
-  const matchesTitle = (job) =>
-    searchFilter.title === "" ||
-    job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
-  const matchesLocation = (job) =>
-    searchFilter.location === "" ||
-    job.location.toLowerCase().includes(searchFilter.location.toLowerCase());
-  const newFilteredJobs = jobs
-    .slice()
-    .reverse()
-    .filter((job) => matchesTitle(job) && matchesLocation(job));
+    setFilteredJobs(newFilteredJobs);
+    setCurrentPage(1);
+  }, [jobs, selectedLocations, selectedCategories, searchFilter]);
+
   return (
     <div className="flex flex-col items-center justify-center w-full p-4 lg:flex-row">
       {/* Filter Sidebar */}
@@ -164,7 +173,7 @@ const JobListing = () => {
         </h3>
         <p className="mb-8">Get your desired job from top companies</p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {jobs
+          {filteredJobs
             .slice((currentpage - 1) * 6, currentpage * 6)
             .map((job, index) => (
               <JobCard key={index} job={job} />
@@ -173,7 +182,7 @@ const JobListing = () => {
 
         {/* pagination */}
 
-        {jobs.length > 0 && (
+        {filteredJobs.length > 0 && (
           <div className="flex flex-row items-center justify-center gap-4 p-4 my-6 ">
             <a href="">
               <img
@@ -182,7 +191,7 @@ const JobListing = () => {
                 alt=""
               />
             </a>
-            {Array.from({ length: Math.ceil(jobs.length / 6) }).map(
+            {Array.from({ length: Math.ceil(filteredJobs.length / 6) }).map(
               (_, index) => (
                 <a key={index} href="#job-list">
                   <button
@@ -203,7 +212,7 @@ const JobListing = () => {
                 onClick={() =>
                   setCurrentPage(
                     Math.min(currentpage + 1),
-                    Math.ceil(jobs.length / 6)
+                    Math.ceil(filteredJobs.length / 6)
                   )
                 }
                 src={assets.right_arrow_icon}
