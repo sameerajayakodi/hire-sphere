@@ -7,7 +7,7 @@ import Navbar from "../components/Navbar";
 const Home = () => {
   return (
     <>
-      <div className="mx-0 md:mx-12 lg:mx-30">
+      <div>
         <Navbar />
         <Hero />
         <JobListing />
