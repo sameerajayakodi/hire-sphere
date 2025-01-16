@@ -1,99 +1,102 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
 import React, { useState } from "react";
 
 const RecruiterLogin = () => {
+  const [state, setState] = useState("Login");
+  const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [image, setImage] = useState(false);
+  const [isTextDataSubmited, setIsTextDataSubmited] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
     console.log("Login attempted with:", { email, password });
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-      <Card className="relative w-full max-w-md bg-white rounded-lg shadow-lg">
-        <button className="absolute text-gray-500 right-4 top-4 hover:text-gray-700">
-          <X size={20} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-blue-600/30 to-purple-600/30 backdrop-blur-sm">
+      <div className="relative w-full max-w-md p-8 mx-4 transition-all duration-300 transform shadow-2xl bg-white/90 backdrop-blur-xl rounded-2xl hover:shadow-3xl">
+        <button className="absolute text-sm font-medium text-gray-400 transition-colors right-6 top-6 hover:text-gray-600">
+          Close
         </button>
 
-        <CardHeader>
-          <h2 className="text-2xl font-semibold text-center text-gray-800">
-            Recruiter Login
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-center text-transparent bg-gray-800 bg-clip-text">
+            Welcome Back
           </h2>
-        </CardHeader>
+          <p className="mt-2 text-center text-gray-500">
+            Login to your recruiter account
+          </p>
+        </div>
 
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="mb-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-600"
               >
                 Email
               </label>
-              <Input
+              <input
                 id="email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder="name@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-4 py-3 transition-all border border-gray-200 bg-gray-50/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 placeholder:text-gray-400"
               />
             </div>
 
             <div className="space-y-2">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-600"
               >
                 Password
               </label>
-              <Input
+              <input
                 id="password"
                 type="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-4 py-3 transition-all border border-gray-200 bg-gray-50/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 placeholder:text-gray-400"
               />
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <a href="#" className="text-blue-600 hover:text-blue-800">
+              <a
+                href="#"
+                className="font-medium text-blue-600 transition-colors hover:text-blue-700"
+              >
                 Forgot password?
               </a>
             </div>
 
-            <Button
+            <button
               type="submit"
-              className="w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+              className="w-full py-3 px-4 bg-blue-600 text-white rounded-xl font-medium hover:opacity-90 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
             >
-              Login
-            </Button>
+              Sign in
+            </button>
           </form>
-        </CardContent>
+        </div>
 
-        <CardFooter className="text-sm text-center text-gray-600">
+        <div className="mt-8 text-sm text-center text-gray-500">
           <p>
             Don&apos;t have an account?{" "}
-            <a href="#" className="text-blue-600 hover:text-blue-800">
-              Sign up
+            <a
+              href="#"
+              className="font-medium text-blue-600 hover:text-blue-700"
+            >
+              Create account
             </a>
           </p>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
