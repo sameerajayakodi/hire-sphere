@@ -1,13 +1,15 @@
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../common/components/Button/Button";
+import { AppContext } from "../context/AppContext";
 
 const Navbar = () => {
   const { openSignIn } = useClerk();
   const { user } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { setShowRecruiterLogin } = useContext(AppContext);
   return (
     <div>
       <nav className="w-full px-4 py-3 bg-white border-b border-gray-200">
@@ -66,7 +68,14 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Button variant="secondary">Recruiter Login</Button>
+                <Button
+                  onClick={(e) => {
+                    setShowRecruiterLogin(true);
+                  }}
+                  variant="secondary"
+                >
+                  Recruiter Login
+                </Button>
                 <Button onClick={(e) => openSignIn()}>Login</Button>
               </>
             )}
