@@ -3,9 +3,13 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import RecruiterLogin from "./components/RecruiterLogin";
 import { AppContext } from "./context/AppContext";
+import AddJob from "./pages/AddJob";
 import Applications from "./pages/Applications";
 import ApplyJob from "./pages/ApplyJob";
+import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import ManageJobs from "./pages/ManageJobs";
+import ViewApplication from "./pages/ViewApplication";
 
 function App() {
   const { showRecruiterLogin } = useContext(AppContext);
@@ -16,6 +20,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/apply-jobs/:id" element={<ApplyJob />} />
         <Route path="/applications" element={<Applications />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="add-job" element={<AddJob />} />
+          <Route path="manage-jobs" element={<ManageJobs />} />
+          <Route path="view-applications" element={<ViewApplication />} />
+        </Route>
       </Routes>
     </div>
   );
