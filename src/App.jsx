@@ -1,3 +1,4 @@
+import "quill/dist/quill.snow.css";
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -10,7 +11,6 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import ManageJobs from "./pages/ManageJobs";
 import ViewApplication from "./pages/ViewApplication";
-
 function App() {
   const { showRecruiterLogin } = useContext(AppContext);
   return (
