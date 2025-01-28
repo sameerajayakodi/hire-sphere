@@ -11,7 +11,7 @@ const RecruiterLogin = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
-  // Handle Escape key press
+ 
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {
