@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
 
+  const { companyData, setCompanyData, setCompanyToken } =
+    useContext(AppContext);
+
+  //Functuion to logout for company
+
+  const logout = () => {
+    setCompanyData(null);
+    setCompanyToken(null);
+    localStorage.removeItem("companyToken");
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (companyData) {
+      navigate("/dashboard/manage-jobs");
+    }
+  }, [companyData]);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -20,33 +38,35 @@ const Dashboard = () => {
                 className="w-auto h-6 transition-transform cursor-pointer sm:h-8 hover:scale-105"
               />
             </div>
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <p className="text-sm font-medium text-gray-900 sm:text-lg">
-                Welcome Sameera
-              </p>
-              <div className="relative">
-                <img
-                  src={assets.company_icon}
-                  alt="Company Icon"
-                  className="w-5 h-5 transition-opacity cursor-pointer sm:w-6 sm:h-6 hover:opacity-80"
-                  onClick={() => setShowLogout(!showLogout)}
-                />
-                {showLogout && (
-                  <div className="absolute right-0 z-10 w-48 py-1 mt-2 bg-white border rounded-md shadow-lg">
-                    <ul className="py-1">
-                      <li
-                        className="px-4 py-2 text-sm text-gray-700 transition-colors cursor-pointer hover:bg-gray-100"
-                        onClick={() => {
-                          setShowLogout(false);
-                        }}
-                      >
-                        Logout
-                      </li>
-                    </ul>
-                  </div>
-                )}
+            {companyData && (
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                <p className="text-sm font-medium text-gray-900 sm:text-lg">
+                  Welcome , {companyData.name}
+                </p>
+                <div className="relative">
+                  <img
+                    src={companyData.image}
+                    alt="Company Icon"
+                    className="w-5 h-5 transition-opacity cursor-pointer sm:w-6 sm:h-6 hover:opacity-80"
+                    onClick={() => setShowLogout(!showLogout)}
+                  />
+                  {showLogout && (
+                    <div className="absolute right-0 z-10 w-48 py-1 mt-2 bg-white border rounded-md shadow-lg">
+                      <ul className="py-1">
+                        <li
+                          className="px-4 py-2 text-sm text-gray-700 transition-colors cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            logout();
+                          }}
+                        >
+                          Logout
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
