@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { assets } from "../assets/assets";
 import Button from "../common/components/Button/Button";
 
 const JobCard = ({ job }) => {
@@ -10,7 +9,7 @@ const JobCard = ({ job }) => {
       {/* Company Icon */}
       <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full">
         <img
-          src={assets.company_icon}
+          src={job.companyId.image}
           alt="Company Icon"
           className="w-10 h-10"
         />
