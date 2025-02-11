@@ -1,13 +1,45 @@
+import { useAuth, useUser } from "@clerk/clerk-react";
+import axios from "axios";
 import moment from "moment";
-import React, { useState } from "react";
-import { assets, jobsApplied } from "../assets/assets";
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { assets } from "../assets/assets";
 import Button from "../common/components/Button/Button";
 import Navbar from "../components/Navbar";
+import { AppContext } from "../context/AppContext";
 
 const Applications = () => {
+  const { user } = useUser();
+  const { getToken } = useAuth();
   const [isEdit, setIsEdit] = useState(false);
   const [resume, setResume] = useState(null);
 
+  const { backendUrl, userData, userApplications, fetchUserData } =
+    useContext(AppContext);
+  const updateResume = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("resume", resume);
+
+      const token = await getToken();
+      const { data } = await axios.post(
+        backendUrl + "/api/users/update-resume",
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        await fetchUserData();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+
+    setIsEdit(false);
+    setResume(null);
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -58,7 +90,7 @@ const Applications = () => {
                     Cancel
                   </Button>
                   <Button
-                    onClick={() => setIsEdit(false)}
+                    onClick={() => updateResume()}
                     className="w-full py-2"
                   >
                     Save
@@ -136,7 +168,7 @@ const Applications = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {jobsApplied.map((job, index) => (
+                {userApplications.map((job, index) => (
                   <tr
                     key={index}
                     className="transition-colors duration-200 hover:bg-gray-50"
@@ -144,23 +176,23 @@ const Applications = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <img
-                          src={job.logo}
-                          alt={`${job.company} logo`}
+                          src={job.companyId.image}
+                          alt={`${job.companyId.image} logo`}
                           className="w-8 h-8 mr-3 rounded-full"
                         />
                         <span className="text-sm font-medium text-gray-900">
-                          {job.company}
+                          {job.companyId.name}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
-                      {job.title}
+                      {job.jobId.title}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
-                      {job.location}
+                      {job.jobId.location}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
-                      {moment(job.date).format("ll")}
+                      {moment(job.jobId.date).format("ll")}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
