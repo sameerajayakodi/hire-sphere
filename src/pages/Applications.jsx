@@ -14,8 +14,13 @@ const Applications = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [resume, setResume] = useState(null);
 
-  const { backendUrl, userData, userApplications, fetchUserData } =
-    useContext(AppContext);
+  const {
+    backendUrl,
+    userData,
+    userApplications = [],
+    fetchUserData,
+  } = useContext(AppContext);
+
   const updateResume = async () => {
     try {
       const formData = new FormData();
@@ -40,6 +45,23 @@ const Applications = () => {
     setIsEdit(false);
     setResume(null);
   };
+
+  // Loading state
+  if (!userData) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="container px-4 py-10 mx-auto 2xl:px-20">
+          <div className="p-6 bg-white rounded-lg shadow-sm">
+            <div className="flex items-center justify-center h-40">
+              <div className="text-gray-500">Loading...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -92,6 +114,7 @@ const Applications = () => {
                   <Button
                     onClick={() => updateResume()}
                     className="w-full py-2"
+                    disabled={!resume}
                   >
                     Save
                   </Button>
@@ -99,25 +122,33 @@ const Applications = () => {
               </div>
             ) : (
               <div className="flex items-center gap-3">
-                <Button>
-                  {" "}
-                  <a href="" className="flex items-center gap-2">
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                {userData.resume ? (
+                  <Button>
+                    <a
+                      target="_blank"
+                      href={userData.resume}
+                      className="flex items-center gap-2"
+                      rel="noopener noreferrer"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                      />
-                    </svg>
-                    Resume
-                  </a>
-                </Button>
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        />
+                      </svg>
+                      Resume
+                    </a>
+                  </Button>
+                ) : (
+                  <div className="text-gray-500">No resume uploaded</div>
+                )}
 
                 <Button
                   onClick={() => setIsEdit(true)}
@@ -176,44 +207,46 @@ const Applications = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <img
-                          src={job.companyId.image}
-                          alt={`${job.companyId.image} logo`}
+                          src={job.companyId?.image}
+                          alt={`${job.companyId?.name || "Company"} logo`}
                           className="w-8 h-8 mr-3 rounded-full"
                         />
                         <span className="text-sm font-medium text-gray-900">
-                          {job.companyId.name}
+                          {job.companyId?.name}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
-                      {job.jobId.title}
+                      {job.jobId?.title}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
-                      {job.jobId.location}
+                      {job.jobId?.location}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
-                      {moment(job.jobId.date).format("ll")}
+                      {job.jobId?.date
+                        ? moment(job.jobId.date).format("ll")
+                        : ""}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
                         ${
-                          job.status.toLowerCase() === "pending"
+                          job.status?.toLowerCase() === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : ""
                         }
                         ${
-                          job.status.toLowerCase() === "rejected"
+                          job.status?.toLowerCase() === "rejected"
                             ? "bg-red-100 text-red-800"
                             : ""
                         }
                         ${
-                          job.status.toLowerCase() === "accepted"
+                          job.status?.toLowerCase() === "accepted"
                             ? "bg-green-100 text-green-800"
                             : ""
                         }
                         ${
-                          job.status.toLowerCase() === "in progress"
+                          job.status?.toLowerCase() === "in progress"
                             ? "bg-blue-100 text-blue-800"
                             : ""
                         }

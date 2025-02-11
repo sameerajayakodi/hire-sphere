@@ -7,7 +7,6 @@ import { AppContext } from "../context/AppContext";
 
 const RecruiterLogin = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(true);
   const [state, setState] = useState("Login");
   const [formData, setFormData] = useState({
     name: "",
@@ -98,11 +97,27 @@ const RecruiterLogin = () => {
     }
   };
 
+  const handleSuccessfulAuth = (data) => {
+    if (data.success) {
+      setCompanyData(data.company);
+      setCompanyToken(data.token);
+      localStorage.setItem("companyToken", data.token);
+
+      // Close the form first
+      setShowRecruiterLogin(false);
+
+      // Then navigate and show success message
+      navigate("/dashboard");
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+    }
+  };
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
-      // Show all validation errors
       toast.error("Please fill in all required fields correctly");
       return;
     }
@@ -137,26 +152,12 @@ const RecruiterLogin = () => {
         );
 
         handleSuccessfulAuth(data);
-        isOpen && setShowRecruiterLogin(false);
       }
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const handleSuccessfulAuth = (data) => {
-    if (data.success) {
-      setCompanyData(data.company);
-      setCompanyToken(data.token);
-      localStorage.setItem("companyToken", data.token);
-      setIsOpen(false);
-      navigate("/dashboard");
-      toast.success(data.message);
-    } else {
-      toast.error(data.message);
     }
   };
 
