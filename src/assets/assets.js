@@ -83,13 +83,30 @@ export const JobCategories = [
 ];
 
 export const JobLocations = [
-  "Bangalore",
-  "Washington",
-  "Hyderabad",
-  "Mumbai",
-  "California",
-  "Chennai",
-  "New York",
+  "Colombo",
+  "Gampaha",
+  "Kalutara",
+  "Kandy",
+  "Matale",
+  "Nuwara Eliya",
+  "Galle",
+  "Matara",
+  "Hambantota",
+  "Jaffna",
+  "Kilinochchi",
+  "Mannar",
+  "Vavuniya",
+  "Mullaitivu",
+  "Batticaloa",
+  "Ampara",
+  "Trincomalee",
+  "Kurunegala",
+  "Puttalam",
+  "Anuradhapura",
+  "Polonnaruwa",
+  "Badulla",
+  "Monaragala",
+  "Ratnapura",
 ];
 
 // Sample data for Manage Jobs Page
